@@ -1,0 +1,174 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-12">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Cadastro de Produto</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <div class="container-fuild">
+            <div class="row">
+              <div class="col-6"></div>
+
+              <div class="col-6 d-flex flex-row justify-content-end">
+                <button
+                  mat-raised-button
+                  color="primary"
+                  class="me-2"
+                  (click)="listProducts()"
+                  *ngIf="!typeAdd"
+                >
+                  Pesquisar
+                </button>
+                <button
+                  mat-raised-button
+                  color="primary"
+                  (click)="!typeAdd ? addProduct() : search()"
+                >
+                  {{ !typeAdd ? "Incluir" : "Voltar" }}
+                </button>
+              </div>
+
+              <div class="col-12"><hr /></div>
+            </div>
+          </div>
+
+          <div class="container-fluid" *ngIf="!typeAdd">
+            <div class="row mt-3">
+              <div class="col-12">
+                <table
+                  mat-table
+                  [dataSource]="dataSource"
+                  class="mat-elevation-z8"
+                >
+                  <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef width="130">Ação</th>
+                    <td mat-cell *matCellDef="let element">
+                      <div>
+                        <app-button
+                          color="primary"
+                          icon="delete"
+                          (response)="delete(element.id)"
+                        />
+                        <app-button
+                          color="primary"
+                          icon="edit"
+                          (click)="edit(element)"
+                        />
+                      </div>
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="sku">
+                    <th mat-header-cell *matHeaderCellDef>Sku</th>
+                    <td mat-cell *matCellDef="let element">
+                      {{ element.sku }}
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef>Produto</th>
+                    <td mat-cell *matCellDef="let element">
+                      {{ element.name }}
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="stock">
+                    <th mat-header-cell *matHeaderCellDef>Estoque</th>
+                    <td mat-cell *matCellDef="let element">
+                      {{ element.stock }}
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="cost">
+                    <th mat-header-cell *matHeaderCellDef>Custo</th>
+                    <td mat-cell *matCellDef="let element">
+                      {{ element.cost }}
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="price">
+                    <th mat-header-cell *matHeaderCellDef>Preço</th>
+                    <td mat-cell *matCellDef="let element">
+                      {{ element.price }}
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr
+                    mat-row
+                    *matRowDef="let row; columns: displayedColumns"
+                  ></tr>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tela de Cadastro -->
+          <div class="container-fluid" *ngIf="typeAdd">
+            <div class="row">
+              <div class="col-12">
+                <form [formGroup]="form">
+                  <div class="row">
+                    <div class="col-2">
+                      <app-input [form]="form" controlName="sku" title="Sku" />
+                    </div>
+
+                    <div class="col-10">
+                      <app-input
+                        [form]="form"
+                        controlName="name"
+                        title="Nome do Produto"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-4">
+                      <app-numeral
+                        [form]="form"
+                        controlName="stock"
+                        title="Estoque"
+                      />
+                    </div>
+
+                    <div class="col-4">
+                      <app-monetary
+                        [form]="form"
+                        controlName="cost"
+                        title="Custo"
+                      />
+                    </div>
+
+                    <div class="col-4">
+                      <app-monetary
+                        [form]="form"
+                        controlName="price"
+                        title="Preço"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-12 text-end">
+                      <button
+                        mat-raised-button
+                        type="button"
+                        color="primary"
+                        class="me-2"
+                        (click)="create()"
+                      >
+                        Salvar Produto
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
