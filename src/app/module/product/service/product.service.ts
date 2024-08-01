@@ -3,17 +3,27 @@ import { ApiService } from '../../../core/services/api.service';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { Product } from '../product.model';
+import { HttpHeaders } from '@angular/common/http';
+
+export interface ApiResponse<T> {
+  message: string;
+  code: number;
+  success: boolean;
+  data: T;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
+  private classController: string = 'product';
+
   constructor(private apiService: ApiService) {}
 
-  private classController: string = 'products';
-
-  listAll(): Observable<Product[]> {
-    return this.apiService.get(environment.api + this.classController);
+  listAll(): Observable<ApiResponse<Product[]>> {
+    return this.apiService.get<ApiResponse<Product[]>>(
+      environment.api + this.classController
+    );
   }
 
   create(data: Product): Observable<Product> {
@@ -28,7 +38,7 @@ export class ProductService {
   }
 
   delete(id: string): Observable<any> {
-    return this.apiService.delete(
+    return this.apiService.delete<any>(
       environment.api + this.classController + '/' + id
     );
   }
